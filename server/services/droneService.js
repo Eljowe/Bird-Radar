@@ -58,7 +58,7 @@ export default async function fetchDataAndParseToSchema() {
                 closestToNestUpdate = distanceToNest(Number(drone.positionX[0]), Number(drone.positionY[0]))
                 //console.log('New closest to nest drone found! Serial number: ' + drone.serialNumber[0] + ' Distance: ' + closestToNestUpdate)
             }
-            let pilotInfo = null;
+            let pilotInfo = existingDrone.pilotInformation;
             if (closestToNestUpdate < 100000 && existingDrone.pilotInformation === null) {
                 pilotInfo = await getPilotInfo(drone);
             }
@@ -79,7 +79,7 @@ export default async function fetchDataAndParseToSchema() {
                   lastSeen: Date.now(),
                   x: drone.positionX[0],
                   y: drone.positionY[0],
-                  pilotInformation: null,
+                  pilotInformation: await getPilotInfo(drone),
                 });
             }
           }

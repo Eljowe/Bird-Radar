@@ -35,7 +35,7 @@ function App() {
       <td>{calculateTimeOnList(drone.lastSeen)} minutes</td>
       <td>{(drone.closestToNest/1000).toFixed(1)} meters</td>
       {drone.pilotInformation ? 
-        <td>{drone.pilotInformation.pilotId}</td> : null
+        <td>{drone.pilotInformation[0].pilotId}</td>: <td>none</td>
       }
     </tr>
   ));

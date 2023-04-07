@@ -7,6 +7,7 @@ const getDrones = async () => {
     try {
         const response = await axios.get(APIuri)
         drones = response.data
+        
         return drones;
     } catch (error) {
         console.error(error)
