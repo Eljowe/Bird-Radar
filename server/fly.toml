@@ -1,6 +1,6 @@
-# fly.toml file generated for viteserver on 2023-04-07T14:57:20+03:00
+# fly.toml file generated for birdserver on 2023-04-07T17:29:20+03:00
 
-app = "viteserver"
+app = "birdserver"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []

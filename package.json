@@ -2,6 +2,7 @@
     "scripts": {
       "front": "cd client && fly deploy",
       "back": "cd server && fly deploy",
-      "both": "concurrently \"npm run front\" \"npm run back\""
+      "both": "concurrently \"npm run front\" \"npm run back\"",
+      "dev": "concurrently \"cd client && npm run dev\" \"cd server && npm run start\""
     }
   }
