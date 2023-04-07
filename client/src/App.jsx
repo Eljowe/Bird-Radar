@@ -37,6 +37,18 @@ function App() {
       {drone.pilotInformation ? 
         <td>{drone.pilotInformation[0].pilotId}</td>: <td>none</td>
       }
+      {drone.pilotInformation ? 
+        <td>{drone.pilotInformation[0].firstName}</td>: <td>none</td>
+      }
+      {drone.pilotInformation ? 
+        <td>{drone.pilotInformation[0].lastName}</td>: <td>none</td>
+      }
+      {drone.pilotInformation ? 
+        <td>{drone.pilotInformation[0].phoneNumber}</td>: <td>none</td>
+      }
+      {drone.pilotInformation ? 
+        <td>{drone.pilotInformation[0].email}</td>: <td>none</td>
+      }
     </tr>
   ));
 
@@ -44,7 +56,7 @@ function App() {
     handleGetDrones();
     const interval = setInterval(() => {
       handleGetDrones();
-    }, 5000);
+    }, 1000);
     return () => {
       clearInterval(interval);
     };
@@ -56,9 +68,6 @@ function App() {
         <motion.section className='home' {...slideAnimation('left')}>
           <motion.header >
             <h1 className=''>Hello</h1>
-            <p>again</p>
-            <p>and again.</p>
-            <button onClick={() => handleGetDrones()}>Get Drones</button>
           </motion.header>
         </motion.section>
       </AnimatePresence>

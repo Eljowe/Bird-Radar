@@ -33,65 +33,68 @@ const getPilotInfo = (drone) => {
   
 
 export default async function fetchDataAndParseToSchema() {
-    let arr = [];
-      https.get("https://assignments.reaktor.com/birdnest/drones", (res) => {
-        let data = '';
-
-  
-      res.on('data', (chunk) => {
-        data += chunk;
-      });
-      
-      res.on('end', async () => {
-        // Parse XML to JSON
-        const result = await xml2json.parseStringPromise(data);
-        arr =result.report.capture[0].drone
-        const drones = arr
+    try {
+      let arr = [];
+        https.get("https://assignments.reaktor.com/birdnest/drones", (res) => {
+          let data = '';
+          
+        res.on('data', (chunk) => {
+          data += chunk;
+        });
         
-        // Update or insert drones in the database
-        for (const drone of drones) {
-          const existingDrone = await droneSchema.findOne({ serialNumber: drone.serialNumber[0] });
-          if (existingDrone) {
-            // Update existing drone
-            let closestToNestUpdate = existingDrone.closestToNest;
-            if (distanceToNest(Number(drone.positionX[0]), Number(drone.positionY[0])) < closestToNestUpdate) {
-                closestToNestUpdate = distanceToNest(Number(drone.positionX[0]), Number(drone.positionY[0]))
-                //console.log('New closest to nest drone found! Serial number: ' + drone.serialNumber[0] + ' Distance: ' + closestToNestUpdate)
-            }
-            let pilotInfo = existingDrone.pilotInformation;
-            if (closestToNestUpdate < 100000 && existingDrone.pilotInformation === null) {
-                pilotInfo = await getPilotInfo(drone);
-            }
-            await droneSchema.findOneAndUpdate({ serialNumber: drone.serialNumber[0] }, {
-              closestToNest: closestToNestUpdate,
-              lastSeen: Date.now(),
-              x: drone.positionX[0],
-              y: drone.positionY[0],
-              pilotInformation: pilotInfo,
-            });
-          } else {
-            // Insert new drone
-            if (distanceToNest(Number(drone.positionX[0]), Number(drone.positionY[0])) < 100000) {
-              
-              await droneSchema.create({ 
-                  serialNumber: drone.serialNumber[0],
-                  closestToNest: distanceToNest(Number(drone.positionX[0]), Number(drone.positionY[0])),
-                  lastSeen: Date.now(),
-                  x: drone.positionX[0],
-                  y: drone.positionY[0],
-                  pilotInformation: await getPilotInfo(drone),
-                });
+        res.on('end', async () => {
+          // Parse XML to JSON
+          const result = await xml2json.parseStringPromise(data);
+          arr =result.report.capture[0].drone
+          const drones = arr
+          
+          // Update or insert drones in the database
+          for (const drone of drones) {
+            const existingDrone = await droneSchema.findOne({ serialNumber: drone.serialNumber[0] });
+            if (existingDrone) {
+              // Update existing drone
+              let closestToNestUpdate = existingDrone.closestToNest;
+              if (distanceToNest(Number(drone.positionX[0]), Number(drone.positionY[0])) < closestToNestUpdate) {
+                  closestToNestUpdate = distanceToNest(Number(drone.positionX[0]), Number(drone.positionY[0]))
+                  //console.log('New closest to nest drone found! Serial number: ' + drone.serialNumber[0] + ' Distance: ' + closestToNestUpdate)
+              }
+              let pilotInfo = existingDrone.pilotInformation;
+              if (closestToNestUpdate < 100000 && existingDrone.pilotInformation === null) {
+                  pilotInfo = await getPilotInfo(drone);
+              }
+              await droneSchema.findOneAndUpdate({ serialNumber: drone.serialNumber[0] }, {
+                closestToNest: closestToNestUpdate,
+                lastSeen: Date.now(),
+                x: drone.positionX[0],
+                y: drone.positionY[0],
+                pilotInformation: pilotInfo,
+              });
+            } else {
+              // Insert new drone
+              if (distanceToNest(Number(drone.positionX[0]), Number(drone.positionY[0])) < 100000) {
+                
+                await droneSchema.create({ 
+                    serialNumber: drone.serialNumber[0],
+                    closestToNest: distanceToNest(Number(drone.positionX[0]), Number(drone.positionY[0])),
+                    lastSeen: Date.now(),
+                    x: drone.positionX[0],
+                    y: drone.positionY[0],
+                    pilotInformation: await getPilotInfo(drone),
+                  });
+              }
             }
           }
-        }
-  
-        // Delete data older than 10 minutes
-        const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
-        await droneSchema.deleteMany({ lastSeen: { $lt: tenMinutesAgo } });
-  
-        //console.log('Data updated and cleaned successfully!');
-      });
-    })   
+    
+          // Delete data older than 10 minutes
+          const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
+          await droneSchema.deleteMany({ lastSeen: { $lt: tenMinutesAgo } });
+    
+          //console.log('Data updated and cleaned successfully!');
+        });
+      })
+    } catch (error) {
+      console.error(error);
+    }
   }
   
   
