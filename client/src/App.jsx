@@ -19,7 +19,7 @@ function App() {
         <motion.header >
           <h1 className=''>Hello</h1>
           <p>again</p>
-          <p>and again</p>
+          <p>and again...</p>
         </motion.header>
       </motion.section>
     </AnimatePresence>
