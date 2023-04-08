@@ -32,6 +32,7 @@ const getPilotInfo = (drone) => {
     });
 };
   
+  
 
 export default async function fetchDataAndParseToSchema() {
     try {
@@ -72,14 +73,16 @@ export default async function fetchDataAndParseToSchema() {
               });
             } else {
               // Insert new drone
-              await droneSchema.create({ 
-                  serialNumber: drone.serialNumber[0],
-                  closestToNest: distanceToNest(Number(drone.positionX[0]), Number(drone.positionY[0])),
-                  lastSeen: Date.now(),
-                  x: drone.positionX[0],
-                  y: drone.positionY[0],
-                  pilotInformation: distanceToNest(Number(drone.positionX[0]), Number(drone.positionY[0])) < 100000 ? await getPilotInfo(drone) : null,
-                });
+              if(distanceToNest(Number(drone.positionX[0]), Number(drone.positionY[0])) < 100000) {
+                await droneSchema.create({ 
+                    serialNumber: drone.serialNumber[0],
+                    closestToNest: distanceToNest(Number(drone.positionX[0]), Number(drone.positionY[0])),
+                    lastSeen: Date.now(),
+                    x: drone.positionX[0],
+                    y: drone.positionY[0],
+                    pilotInformation: distanceToNest(Number(drone.positionX[0]), Number(drone.positionY[0])) < 100000 ? await getPilotInfo(drone) : null,
+                  });
+              }
             }
           }
     

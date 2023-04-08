@@ -4,6 +4,7 @@ import cors from 'cors';
 import fetchDataAndParseToSchema from './services/droneService.js';
 import routes from './routes/routes.js';
 import Drone from './models/drone.js';
+import getCurrentRadar from './services/xmlProxyService.js';
 
 dotenv.config();
 
@@ -21,6 +22,10 @@ app.get('/api/drones', (req, response) => {
   Drone.find({}).then(drones => {
       response.json(drones)
   })
+})
+
+app.get('/api/currentdrones', (req, response) => {
+  getCurrentRadar().then(drones=> {response.json(drones)})
 })
 
 const unknownEndpoint = (request, response) => {
