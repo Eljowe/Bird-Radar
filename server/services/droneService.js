@@ -48,12 +48,13 @@ export default async function fetchDataAndParseToSchema() {
               let closestToNestUpdate = existingDrone.closestToNest;
               if (distanceToNest(Number(drone.positionX[0]), Number(drone.positionY[0])) < closestToNestUpdate) {
                   closestToNestUpdate = distanceToNest(Number(drone.positionX[0]), Number(drone.positionY[0]))
-                  //console.log('New closest to nest drone found! Serial number: ' + drone.serialNumber[0] + ' Distance: ' + closestToNestUpdate)
               }
+
               let pilotInfo = existingDrone.pilotInformation;
               if (closestToNestUpdate < 100000 && existingDrone.pilotInformation === null) {
                   pilotInfo = await getPilotInfo(drone);
               }
+              
               await droneSchema.findOneAndUpdate({ serialNumber: drone.serialNumber[0] }, {
                 closestToNest: closestToNestUpdate,
                 lastSeen: Date.now(),
@@ -79,13 +80,11 @@ export default async function fetchDataAndParseToSchema() {
           // Delete data older than 10 minutes
           const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
           await droneSchema.deleteMany({ lastSeen: { $lt: tenMinutesAgo } });
-    
-          //console.log('Data updated and cleaned successfully!');
         });
       })
     } catch (error) {
       console.error(error);
     }
-  }
+};
   
   

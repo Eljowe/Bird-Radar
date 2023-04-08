@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 /* eslint-disable react/jsx-key */
 import { useState, useEffect, useRef } from 'react'
 import {getDrones, getCurrent} from './services/droneService'
