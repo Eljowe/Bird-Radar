@@ -1,8 +1,10 @@
+/* eslint-disable react/jsx-key */
 import { useState, useEffect, useRef } from 'react'
 import {getDrones, getCurrent} from './services/droneService'
 import {Model, Model2} from './components/model'
 import { Canvas } from 'react-three-fiber'
 import { OrbitControls } from "@react-three/drei";
+import React from 'react';
 
 function App() {
   const [drones, setDrones] = useState([])
@@ -27,23 +29,23 @@ function App() {
   const createDroneTable = drones.filter(drone => drone.closestToNest < 100000).map(drone => (
     <tbody>
       <tr key={drone.serialNumber}>
-        <td className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.serialNumber}</td>
-        <td className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{calculateTimeOnList(drone.lastSeen)} minutes</td>
-        <td className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{(drone.closestToNest/1000).toFixed(1)} meters</td>
+        <td key={drone.serialNumber} className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.serialNumber}</td>
+        <td key={drone.lastSeen} className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{calculateTimeOnList(drone.lastSeen)} minutes</td>
+        <td key={drone.closestToNest} className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{(drone.closestToNest/1000).toFixed(1)} meters</td>
         {drone.pilotInformation ? 
-          <td className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].pilotId}</td>: <td>none</td>
+          <td key={drone.pilotInformation[0].pilotId} className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].pilotId}</td>: <td>none</td>
         }
         {drone.pilotInformation ? 
-          <td className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].firstName}</td>: <td>none</td>
+          <td key={drone.pilotInformation[0].firstName} className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].firstName}</td>: <td>none</td>
         }
         {drone.pilotInformation ? 
-          <td className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].lastName}</td>: <td>none</td>
+          <td key={drone.pilotInformation[0].lastName} className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].lastName}</td>: <td>none</td>
         }
         {drone.pilotInformation ? 
-          <td className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].phoneNumber}</td>: <td>none</td>
+          <td key={drone.pilotInformation[0].phoneNumber} className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].phoneNumber}</td>: <td>none</td>
         }
         {drone.pilotInformation ? 
-          <td className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].email}</td>: <td>none</td>
+          <td key={drone.pilotInformation[0].email} className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].email}</td>: <td>none</td>
         }
       </tr>
     </tbody>
@@ -70,11 +72,11 @@ function App() {
 
   return (
     <div className="">
-      <div className="flex flex-col items-center justify-center py-2 mt-2 text-2xl">
+      <div className="flex flex-col items-center justify-center py-2 mt-10 text-2xl">
         <h1>Drone radar app</h1>
       </div>
 
-      <div className='h-[600px] border-2 border-white w-[600px] m-auto mb-20 mt-20 rounded-xl' >
+      <div className='h-[600px] border-2 border-white w-[600px] m-auto mb-20 mt-10 rounded-xl' >
         <Canvas camera={{position: [100, 400, 400], fov: 45}}
         style={{width: `100%`, height: `100%`, position: `relative` }}
         >
@@ -101,7 +103,7 @@ function App() {
               <th className="px-3 py-3 text-left text-white-600 font-bold border-b-2 border-white">Email</th>
             </tr>
           </thead>
-          {...createDroneTable}
+          {[...createDroneTable]}
       </table>
     </div>
   )

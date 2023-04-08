@@ -7,7 +7,8 @@
     "build": "vite build",
     "dev": "vite",
     "serve": "serve -s dist -p 8080",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint . --fix"
   },
   "dependencies": {
     "@react-three/drei": "^9.64.0",
@@ -35,6 +36,8 @@
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^3.1.0",
     "autoprefixer": "^10.4.14",
+    "eslint": "^8.38.0",
+    "eslint-plugin-react": "^7.32.2",
     "nodemon": "^2.0.22",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.3.1",

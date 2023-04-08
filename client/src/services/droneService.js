@@ -11,7 +11,7 @@ const currentRadarURIProd = 'https://birdserver.fly.dev/api/currentdrones'
 const getDrones = async () => {
     let drones = []
     try {
-        const response = await axios.get(APIuri)
+        const response = await axios.get(ApiUriProd)
         drones = response.data
         
         return drones;
@@ -23,7 +23,7 @@ const getDrones = async () => {
 const getCurrent = async () => {
     let drones = []
     try {
-        const response = await axios.get(currentRadarURI)
+        const response = await axios.get(currentRadarURIProd)
         drones = response.data
         return drones;
     } catch (error) {
