@@ -67,6 +67,7 @@ function App() {
     <Model2 key={drone.serialNumber[0]} scale={{x: 0.1, y:0.1, z: 0.1}} position={{x: (drone.positionX[0]/1300-200), y:(drone.altitude[0]/15-200), z: (drone.positionY[0]/1500-150)}} color={distanceToNest(drone.positionX, drone.positionY) < 100000 ? '#ff0000' : '#ffffff'} url="drone2.obj" />
   ))
 
+
   return (
     <div className="">
       <div className="flex flex-col items-center justify-center py-2 mt-2 text-2xl">
