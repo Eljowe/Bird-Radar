@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const APIuri = 'http://localhost:8080/api/drones'
 
-const ApiServeruri = 'https://birdserver.fly.dev/api/drones'
+const ApiUriProd = 'https://birdserver.fly.dev/api/drones'
 
 const currentRadarURI = 'http://localhost:8080/api/currentdrones'
 
