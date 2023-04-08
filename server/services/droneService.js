@@ -1,14 +1,6 @@
-import response, { json } from 'express';
 import https from 'https';
 import xml2json from 'xml2js';
 import droneSchema from '../models/drone.js';
-import http from 'http';
-import mongoose from 'mongoose';
-import drone from '../models/drone.js';
-
-// https://droneproxy.fly.dev/https://assignments.reaktor.com/birdnest/drones
-// https://assignments.reaktor.com/birdnest/drones
-// assignments.reaktor.com/birdnest/pilots/:serialNumber
 
 const distanceToNest = (x, y) => { 
     return Math.sqrt(Math.pow(250000-x, 2)+Math.pow(250000-y, 2))
@@ -31,8 +23,6 @@ const getPilotInfo = (drone) => {
       });
     });
 };
-  
-  
 
 export default async function fetchDataAndParseToSchema() {
     try {

@@ -1,4 +1,4 @@
-# fly.toml file generated for birdserver on 2023-04-07T17:29:20+03:00
+# fly.toml file generated for birdserver on 2023-04-08T17:23:48+03:00
 
 app = "birdserver"
 kill_signal = "SIGINT"
