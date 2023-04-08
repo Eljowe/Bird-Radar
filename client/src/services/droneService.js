@@ -2,6 +2,8 @@ import axios from 'axios'
 
 const APIuri = 'http://localhost:8080/api/drones'
 
+const ApiServeruri = 'https://birdserver.fly.dev/api/drones'
+
 const getDrones = async () => {
     let drones = []
     try {

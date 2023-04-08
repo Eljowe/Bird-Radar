@@ -29,25 +29,25 @@ function App() {
     return formattedTime;
   };
 
-  const renderDrones = drones.map(drone => (
+  const renderDrones = drones.filter(drone => drone.closestToNest < 100000).map(drone => (
     <tr key={drone.serialNumber}>
-      <td>{drone.serialNumber}</td>
-      <td>{calculateTimeOnList(drone.lastSeen)} minutes</td>
-      <td>{(drone.closestToNest/1000).toFixed(1)} meters</td>
+      <td className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.serialNumber}</td>
+      <td className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{calculateTimeOnList(drone.lastSeen)} minutes</td>
+      <td className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{(drone.closestToNest/1000).toFixed(1)} meters</td>
       {drone.pilotInformation ? 
-        <td>{drone.pilotInformation[0].pilotId}</td>: <td>none</td>
+        <td className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].pilotId}</td>: <td>none</td>
       }
       {drone.pilotInformation ? 
-        <td>{drone.pilotInformation[0].firstName}</td>: <td>none</td>
+        <td className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].firstName}</td>: <td>none</td>
       }
       {drone.pilotInformation ? 
-        <td>{drone.pilotInformation[0].lastName}</td>: <td>none</td>
+        <td className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].lastName}</td>: <td>none</td>
       }
       {drone.pilotInformation ? 
-        <td>{drone.pilotInformation[0].phoneNumber}</td>: <td>none</td>
+        <td className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].phoneNumber}</td>: <td>none</td>
       }
       {drone.pilotInformation ? 
-        <td>{drone.pilotInformation[0].email}</td>: <td>none</td>
+        <td className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].email}</td>: <td>none</td>
       }
     </tr>
   ));
@@ -63,7 +63,7 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <div className="">
       <AnimatePresence>
         <motion.section className='home' {...slideAnimation('left')}>
           <motion.header >
@@ -71,7 +71,21 @@ function App() {
           </motion.header>
         </motion.section>
       </AnimatePresence>
-      {renderDrones}
+      <table className=" table-auto border-collapse border-white text-sm sm:text-sm md:text-sm lg:text-md xl:text-l m-auto">
+          <thead>
+            <tr>
+              <th className="px-3 py-3 text-left text-white-600 font-bold border-b-2 border-white">Serial Number</th>
+              <th className="px-3 py-3 text-left text-white-600 font-bold border-b-2 border-white">Time on List</th>
+              <th className="px-3 py-3 text-left text-white-600 font-bold border-b-2 border-white">Distance to Nest</th>
+              <th className="px-3 py-3 text-left text-white-600 font-bold border-b-2 border-white">Pilot ID</th>
+              <th className="px-3 py-3 text-left text-white-600 font-bold border-b-2 border-white">First Name</th>
+              <th className="px-3 py-3 text-left text-white-600 font-bold border-b-2 border-white">Last Name</th>
+              <th className="px-3 py-3 text-left text-white-600 font-bold border-b-2 border-white">Phone Number</th>
+              <th className="px-3 py-3 text-left text-white-600 font-bold border-b-2 border-white">Email</th>
+            </tr>
+          </thead>
+          {renderDrones}
+      </table>
     </div>
   )
 }

@@ -4,6 +4,7 @@ import xml2json from 'xml2js';
 import droneSchema from '../models/drone.js';
 import http from 'http';
 import mongoose from 'mongoose';
+import drone from '../models/drone.js';
 
 // https://droneproxy.fly.dev/https://assignments.reaktor.com/birdnest/drones
 // https://assignments.reaktor.com/birdnest/drones
@@ -20,7 +21,7 @@ const getPilotInfo = (drone) => {
         response.on('data', (chunk) => {
           data2 += chunk;
         });
-  
+        
         response.on('end', () => {
           const pilotInfo = JSON.parse(data2);
           resolve(pilotInfo);
@@ -71,17 +72,14 @@ export default async function fetchDataAndParseToSchema() {
               });
             } else {
               // Insert new drone
-              if (distanceToNest(Number(drone.positionX[0]), Number(drone.positionY[0])) < 100000) {
-                
-                await droneSchema.create({ 
-                    serialNumber: drone.serialNumber[0],
-                    closestToNest: distanceToNest(Number(drone.positionX[0]), Number(drone.positionY[0])),
-                    lastSeen: Date.now(),
-                    x: drone.positionX[0],
-                    y: drone.positionY[0],
-                    pilotInformation: await getPilotInfo(drone),
-                  });
-              }
+              await droneSchema.create({ 
+                  serialNumber: drone.serialNumber[0],
+                  closestToNest: distanceToNest(Number(drone.positionX[0]), Number(drone.positionY[0])),
+                  lastSeen: Date.now(),
+                  x: drone.positionX[0],
+                  y: drone.positionY[0],
+                  pilotInformation: distanceToNest(Number(drone.positionX[0]), Number(drone.positionY[0])) < 100000 ? await getPilotInfo(drone) : null,
+                });
             }
           }
     
