@@ -3,6 +3,8 @@ import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import { useLoader } from '@react-three/fiber'
 import * as THREE from 'three'
 
+
+// eslint-disable-next-line react/prop-types
 function Model({ url, scale, position, color }) {
   var material = new THREE.MeshPhongMaterial( {
     color: color,

@@ -77,16 +77,16 @@ function App() {
         <h1>Drone radar app</h1>
       </div>
 
-      <div className='h-[600px] border-2 border-white w-[600px] m-auto mb-20 mt-10 rounded-xl' >
+      <div className='h-[600px] border-2 border-white w-[1000px] m-auto mb-20 mt-10 rounded-xl' >
         <Canvas camera={{position: [100, 400, 400], fov: 45}}
         style={{width: `100%`, height: `100%`, position: `relative` }}
         >
           <OrbitControls />
           <ambientLight intensity={0.6} />
           <directionalLight intensity={0.5} />
-          <Model key={'bird'} scale={{x: 0.1, y:0.1, z: 0.1}} position={{x: 0, y:0, z: 0}} color={'#754020'} url="bird.obj" />
-          <Model key={'nest'} scale={{x: 0.5, y:0.5, z: 0.5}} position={{x: 5, y:0, z: 0}} color={'#220000'} url="nest.obj" />
-          <Model key={'land'} scale={{x: 400, y:400, z: 400}} position={{x: 5, y:-28, z: 0}} color={'#434544'} url="land.obj" />
+          <Model key={'bird'} scale={{x: 0.1, y:0.1, z: 0.1}} position={{x: 0, y:0, z: 0}} color={'#c08d6d'} url="bird.obj" />
+          <Model key={'nest'} scale={{x: 0.5, y:0.5, z: 0.5}} position={{x: 5, y:0, z: 0}} color={'#382929'} url="nest.obj" />
+          <Model key={'land'} scale={{x: 400, y:400, z: 400}} position={{x: 5, y:-28, z: 0}} color={'#484948'} url="land.obj" />
           {renderCurrentlyInRadar}
         </Canvas>
       </div>
