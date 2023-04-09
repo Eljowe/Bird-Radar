@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 import drone from '../models/drone.js';
 
 export default function getCurrentRadar() {
+  try {
     return new Promise((resolve, reject) => {
       let arr = [];
       https.get("https://assignments.reaktor.com/birdnest/drones", (res) => {
@@ -24,4 +25,7 @@ export default function getCurrentRadar() {
         reject(err);
       });
     });
+  } catch (error) {
+    console.error(error);
+  }
 }

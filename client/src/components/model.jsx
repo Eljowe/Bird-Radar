@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import { useLoader } from '@react-three/fiber'
 import * as THREE from 'three'
-
+import { STLLoader } from 'three/examples/jsm/loaders/STLLoader'
 
 // eslint-disable-next-line react/prop-types
 function Model({ url, scale, position, color }) {
@@ -42,6 +42,21 @@ function Model2({url, scale, position, color}) {
         />
     );
   };
+
+function Model3({scale, position, color}) {
+  if (droneModel == null) {
+    return null
+  }
+  return (
+    <mesh
+      geometry={droneModel}
+      material={material}
+      scale={[scale.x, scale.y, scale.z]}
+      position={[position.x, position.y, position.z]}
+    />
+);
+            
+};
   
 
-export {Model, Model2}
+export {Model, Model2, Model3}

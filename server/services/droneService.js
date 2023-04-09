@@ -3,10 +3,15 @@ import xml2json from 'xml2js';
 import droneSchema from '../models/drone.js';
 
 const distanceToNest = (x, y) => { 
+  try {
     return Math.sqrt(Math.pow(250000-x, 2)+Math.pow(250000-y, 2))
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const getPilotInfo = (drone) => {
+  try {
     return new Promise((resolve, reject) => {
       https.get(`https://assignments.reaktor.com/birdnest/pilots/${drone.serialNumber[0]}`, (response) => {
         let data2 = '';
@@ -22,6 +27,9 @@ const getPilotInfo = (drone) => {
         reject(error);
       });
     });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export default async function fetchDataAndParseToSchema() {

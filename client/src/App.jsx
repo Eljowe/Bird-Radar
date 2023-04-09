@@ -1,15 +1,18 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable react/jsx-key */
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import {getDrones, getCurrent} from './services/droneService'
-import {Model, Model2} from './components/model'
+import {Model, Model2, Model3} from './components/model'
 import { Canvas } from 'react-three-fiber'
 import { OrbitControls } from "@react-three/drei";
 import React from 'react';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
+
 
 function App() {
   const [drones, setDrones] = useState([])
   const [currentlyInRadar, setCurrentlyInRadar] = useState([])
+
 
   const handleGetDrones = async () => {
     const resp = await getDrones()
@@ -67,7 +70,8 @@ function App() {
   };
 
   const renderCurrentlyInRadar = currentlyInRadar.map(drone => (
-    <Model2 key={drone.serialNumber[0]} scale={{x: 0.1, y:0.1, z: 0.1}} position={{x: (drone.positionX[0]/1300-200), y:(drone.altitude[0]/15-200), z: (drone.positionY[0]/1500-150)}} color={distanceToNest(drone.positionX, drone.positionY) < 100000 ? '#ff0000' : '#ffffff'} url="drone2.obj" />
+    //<Model3 key={drone.serialNumber[0]} scale={{x: 0.1, y:0.1, z: 0.1}} position={{x: (drone.positionX[0]/1300-200), y:(drone.altitude[0]/15-200), z: (drone.positionY[0]/1500-150)}} color={distanceToNest(drone.positionX, drone.positionY) < 100000 ? '#ff0000' : '#ffffff'} mesh={droneModel} />
+    <Model2 key={drone.serialNumber[0]} scale={{x: 0.1, y:0.1, z: 0.1}} position={{x: (drone.positionX[0]/1300-200), y:(drone.altitude[0]/15-200), z: (drone.positionY[0]/1500-150)}} color={distanceToNest(drone.positionX, drone.positionY) < 100000 ? '#ff0000' : '#ffffff'} url="bird.obj" />
   ))
 
 
