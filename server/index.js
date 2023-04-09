@@ -26,6 +26,7 @@ app.get('/api/drones', (req, response) => {
   } catch (error) {
     response.status(500).send({ error: '/api/drones error' })
     console.error(error);
+    console.log('Error in /api/drones')
   }
 })
 
@@ -35,6 +36,7 @@ app.get('/api/currentdrones', (req, response) => {
   } catch (error) {
     response.status(500).send({ error: '/api/currentdrones error' })
     console.error(error);
+    console.log('Error in /api/currentdrones')
   }
 })
 

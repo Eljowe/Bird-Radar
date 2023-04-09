@@ -7,6 +7,7 @@ const distanceToNest = (x, y) => {
     return Math.sqrt(Math.pow(250000-x, 2)+Math.pow(250000-y, 2))
   } catch (error) {
     console.error(error);
+    return null;
   }
 };
 
@@ -29,6 +30,8 @@ const getPilotInfo = (drone) => {
     });
   } catch (error) {
     console.error(error);
+    console.log('Error in getPilotInfo 2')
+    return null;
   }
 };
 
@@ -92,6 +95,8 @@ export default async function fetchDataAndParseToSchema() {
       })
     } catch (error) {
       console.error(error);
+      console.log('Error fetching data 1');
+      return null;
     }
 };
   

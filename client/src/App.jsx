@@ -1,12 +1,14 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable react/jsx-key */
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useState, useEffect, useRef, useMemo, Suspense } from 'react'
 import {getDrones, getCurrent} from './services/droneService'
 import {Model, Model2, Model3} from './components/model'
 import { Canvas } from 'react-three-fiber'
 import { OrbitControls } from "@react-three/drei";
 import React from 'react';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
+//import Drones from './components/fbxLoader';
+
+const Drones = React.lazy(() => import('./components/gltfLoader'));
 
 
 function App() {
@@ -71,7 +73,7 @@ function App() {
 
   const renderCurrentlyInRadar = currentlyInRadar.map(drone => (
     //<Model3 key={drone.serialNumber[0]} scale={{x: 0.1, y:0.1, z: 0.1}} position={{x: (drone.positionX[0]/1300-200), y:(drone.altitude[0]/15-200), z: (drone.positionY[0]/1500-150)}} color={distanceToNest(drone.positionX, drone.positionY) < 100000 ? '#ff0000' : '#ffffff'} mesh={droneModel} />
-    <Model2 key={drone.serialNumber[0]} scale={{x: 0.1, y:0.1, z: 0.1}} position={{x: (drone.positionX[0]/1300-200), y:(drone.altitude[0]/15-200), z: (drone.positionY[0]/1500-150)}} color={distanceToNest(drone.positionX, drone.positionY) < 100000 ? '#ff0000' : '#ffffff'} url="bird.obj" />
+    <Model2 key={drone.serialNumber[0]} scale={{x: 0.1, y:0.1, z: 0.1}} position={{x: (drone.positionX[0]/1300-200), y:(drone.altitude[0]/15-200), z: (drone.positionY[0]/1500-200)}} color={distanceToNest(drone.positionX, drone.positionY) < 100000 ? '#ff0000' : '#ffffff'} url="bird.obj" />
   ))
 
 
@@ -80,10 +82,16 @@ function App() {
       <div className="flex flex-col items-center justify-center py-2 mt-10 text-2xl">
         <h1>Drone radar app</h1>
       </div>
-
+      <div className='h-[600px] border-2 border-white w-[1000px] m-auto mb-20 mt-10 rounded-xl'>
+        <Suspense fallback={null}>
+          <Drones currentlyInRadar={currentlyInRadar} />
+        </Suspense>
+      </div>
+    
       <div className='h-[600px] border-2 border-white w-[1000px] m-auto mb-20 mt-10 rounded-xl' >
-        <Canvas camera={{position: [100, 400, 400], fov: 45}}
-        style={{width: `100%`, height: `100%`, position: `relative` }}
+        <Canvas 
+          camera={{position: [100, 400, 400], fov: 45}}
+          style={{width: `100%`, height: `100%`, position: `relative` }}
         >
           <OrbitControls />
           <ambientLight intensity={0.6} />

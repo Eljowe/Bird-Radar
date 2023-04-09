@@ -27,5 +27,6 @@ export default function getCurrentRadar() {
     });
   } catch (error) {
     console.error(error);
+    return null;
   }
 }
