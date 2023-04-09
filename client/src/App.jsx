@@ -2,19 +2,15 @@
 /* eslint-disable react/jsx-key */
 import { useState, useEffect, useRef, useMemo, Suspense } from 'react'
 import {getDrones, getCurrent} from './services/droneService'
-import {Model, Model2, Model3} from './components/model'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from "@react-three/drei";
 import React from 'react';
 import Drones from './components/gltfLoader';
-
 //const Drones = React.lazy(() => import('./components/gltfLoader'));
-
 
 function App() {
   const [drones, setDrones] = useState([])
   const [currentlyInRadar, setCurrentlyInRadar] = useState([])
-
 
   const handleGetDrones = async () => {
     const resp = await getDrones()
@@ -71,12 +67,6 @@ function App() {
     return Math.sqrt(Math.pow(250000-x, 2)+Math.pow(250000-y, 2))
   };
 
-  const renderCurrentlyInRadar = currentlyInRadar.map(drone => (
-    //<Model3 key={drone.serialNumber[0]} scale={{x: 0.1, y:0.1, z: 0.1}} position={{x: (drone.positionX[0]/1300-200), y:(drone.altitude[0]/15-200), z: (drone.positionY[0]/1500-150)}} color={distanceToNest(drone.positionX, drone.positionY) < 100000 ? '#ff0000' : '#ffffff'} mesh={droneModel} />
-    <Model2 key={drone.serialNumber[0]} scale={{x: 0.1, y:0.1, z: 0.1}} position={{x: (drone.positionX[0]/1300-200), y:(drone.altitude[0]/15-200), z: (drone.positionY[0]/1500-200)}} color={distanceToNest(drone.positionX, drone.positionY) < 100000 ? '#ff0000' : '#ffffff'} url="bird.obj" />
-  ))
-
-
   return (
     <div className="">
       <div className="flex flex-col items-center justify-center py-2 mt-10 text-2xl">
@@ -88,21 +78,6 @@ function App() {
         </Suspense>
       </div>
     
-      <div className='h-[600px] border-2 border-white w-[1000px] m-auto mb-20 mt-10 rounded-xl' >
-        <Canvas 
-          camera={{position: [100, 400, 400], fov: 45}}
-          style={{width: `100%`, height: `100%`, position: `relative` }}
-        >
-          <OrbitControls />
-          <ambientLight intensity={0.6} />
-          <directionalLight intensity={0.5} />
-          <Model key={'bird'} scale={{x: 0.1, y:0.1, z: 0.1}} position={{x: 0, y:0, z: 0}} color={'#c08d6d'} url="bird.obj" />
-          <Model key={'nest'} scale={{x: 0.5, y:0.5, z: 0.5}} position={{x: 5, y:0, z: 0}} color={'#382929'} url="nest.obj" />
-          <Model key={'land'} scale={{x: 400, y:400, z: 400}} position={{x: 5, y:-28, z: 0}} color={'#484948'} url="land.obj" />
-          {renderCurrentlyInRadar}
-        </Canvas>
-      </div>
-
       <table className=" table-auto border-collapse border-white text-sm sm:text-sm md:text-sm lg:text-md xl:text-l m-auto">
           <thead>
             <tr>

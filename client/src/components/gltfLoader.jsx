@@ -1,11 +1,8 @@
 import React, { useMemo, useState, useRef } from 'react'
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import { useLoader, Canvas, useThree, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
-import { STLLoader } from 'three/examples/jsm/loaders/STLLoader'
 import { useGLTF, OrbitControls } from '@react-three/drei'
 import { Html, useProgress, Detailed, Environment } from '@react-three/drei'
-import { EffectComposer, DepthOfField } from '@react-three/postprocessing'
 
 function Bird () {
     const ref = useRef()

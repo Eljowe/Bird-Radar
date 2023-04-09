@@ -6,18 +6,30 @@ dotenv.config();
 
 const router = express.Router();
 
-const config = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-const openai = new OpenAIApi(config);
-
 router.route('/').get((req, res) => {
   res.status(200).json({ message: "Hello from API ROUTES" })
 })
 
-router.route('/2').get((req, res) => {
-  res.status(200).json({ message: "Hello from API 2" })
+router.route('/drones', (req, response) => {
+  try {
+    Drone.find({}).then(drones => {
+        response.json(drones)
+    })
+  } catch (error) {
+    response.status(500).send({ error: '/api/drones error' })
+    console.error(error);
+    console.log('Error in /api/drones')
+  }
+})
+
+router.route('/currentdrones', (req, response) => {
+  try {
+    getCurrentRadar().then(drones=> {response.json(drones)})
+  } catch (error) {
+    response.status(500).send({ error: '/api/currentdrones error' })
+    console.error(error);
+    console.log('Error in /api/currentdrones')
+  }
 })
 
 export default router;
