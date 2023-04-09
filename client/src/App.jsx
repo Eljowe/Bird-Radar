@@ -3,12 +3,12 @@
 import { useState, useEffect, useRef, useMemo, Suspense } from 'react'
 import {getDrones, getCurrent} from './services/droneService'
 import {Model, Model2, Model3} from './components/model'
-import { Canvas } from 'react-three-fiber'
+import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from "@react-three/drei";
 import React from 'react';
-//import Drones from './components/fbxLoader';
+import Drones from './components/gltfLoader';
 
-const Drones = React.lazy(() => import('./components/gltfLoader'));
+//const Drones = React.lazy(() => import('./components/gltfLoader'));
 
 
 function App() {
