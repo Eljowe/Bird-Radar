@@ -16,7 +16,7 @@ function Bird () {
         polygonOffsetUnits: 1
       } )
     return (
-        <Detailed ref={ref} distances={[0, 50, 100]} scale={[0.04, 0.04, 0.04]} position={[0, 10, 0]} rotation={[0, 0, 0]}>
+        <Detailed ref={ref} distances={[0, 50, 100]} scale={[0.04, 0.04, 0.04]} position={[0, -10, 0]} rotation={[0, 0, 0]}>
             <mesh geometry={nodes.Bird.geometry} material={material} />
         </Detailed>
     )
@@ -32,7 +32,7 @@ function Nest () {
         polygonOffsetUnits: 1
       } )
     return (
-        <Detailed ref={ref} distances={[0, 50, 100]} scale={[0.15, 0.15, 0.15]} position={[2, 10, 0]} rotation={[0, 0, 0]}>
+        <Detailed ref={ref} distances={[0, 50, 100]} scale={[0.15, 0.15, 0.15]} position={[2, -10, 0]} rotation={[0, 0, 0]}>
             <mesh geometry={nodes.barn021_Cube021.geometry} material={material} />
         </Detailed>
     )
@@ -49,7 +49,7 @@ function Ground () {
     const ref = useRef()
     const { nodes, materials } = useGLTF('ground.gltf')
     return (
-        <Detailed ref={ref} distances={[0, 50, 100]} scale={[150, 150, 150]}  rotation={[3*Math.PI/2, 0, 0]} position={[0, 0, 0]}>
+        <Detailed ref={ref} distances={[0, 50, 100]} scale={[150, 150, 150]}  rotation={[3*Math.PI/2, 0, 0]} position={[0, -20, 0]}>
             <mesh geometry={nodes.mesh_0.geometry} material={material} />
         </Detailed>
     )
@@ -92,7 +92,7 @@ export default function Drones({ currentlyInRadar }) {
             <Canvas gl={{ antialias: true }} dpr={[1, 1.5]} camera={{ position: [0, 450, 150], fov: 20, near: 20, far: 3000 }} callback={<Loader/>}>
                 <PerspectiveCamera makeDefault fov={20} position={[-200, 300, 300]} resolution={1024} far={3000}></PerspectiveCamera>
                 <OrbitControls />
-                {Array.from(currentlyInRadar, (drone) => <Drone key={drone.serialNumber[0]} position={{x: (drone.positionX[0]/3500-80), y:(drone.altitude[0]/50-40), z: (drone.positionY[0]/3500-80)}} /> /* prettier-ignore */)}
+                {Array.from(currentlyInRadar, (drone) => <Drone key={drone.serialNumber[0]} position={{x: (drone.positionX[0]/3500-80), y:(drone.altitude[0]/50-60), z: (drone.positionY[0]/3500-80)}} /> /* prettier-ignore */)}
                 <ambientLight intensity={0.5} />
                 <directionalLight intensity={0.6} />
                 <Ground />

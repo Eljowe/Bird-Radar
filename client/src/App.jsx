@@ -62,10 +62,10 @@ function App() {
 
   return (
     <div className="">
-      <div className="flex flex-col items-center justify-center py-2 mt-10 text-2xl">
+      <div className="flex flex-col items-center justify-center py-2 mt-10 text-3xl w-[100%]">
         <h1>Drone radar app</h1>
       </div>
-      <div className='h-[600px] border-2 border-white w-[1000px] m-auto mb-20 mt-10 rounded-xl'>
+      <div className='max-h-[500px] h-[50vw] border-2 border-white max-w-[900px] w-[90vw] m-auto mb-20 mt-10 rounded-xl'>
         <Loader />
         <Suspense fallback={null}>
           <Drones currentlyInRadar={currentlyInRadar} />
