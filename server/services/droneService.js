@@ -20,8 +20,13 @@ const getPilotInfo = (drone) => {
       });
       
       response.on('end', () => {
-        const pilotInfo = JSON.parse(data);
-        resolve(pilotInfo);
+        try {
+          const pilotInfo = JSON.parse(data);
+          resolve(pilotInfo);
+        } catch (error) {
+          resolve(null);
+          return null;
+        }
       });
     });
 
