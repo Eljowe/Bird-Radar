@@ -1,17 +1,11 @@
 import axios from 'axios'
 
-
-const ApiUriProd = 'https://birdserver.fly.dev/api/drones'
-
-const currentRadarURIProd = 'https://birdserver.fly.dev/api/currentdrones'
-
 var APIuri = 'http://localhost:8080/api/drones'
-
 var currentRadarURI = 'http://localhost:8080/api/currentdrones'
 
 if (process.env.NODE_ENV === 'production') {
-    APIuri = ApiUriProd
-    currentRadarURI = currentRadarURIProd
+    APIuri = 'https://birdserver.fly.dev/api/drones'
+    currentRadarURI = 'https://birdserver.fly.dev/api/currentdrones'
 }
 
 const getDrones = async () => {

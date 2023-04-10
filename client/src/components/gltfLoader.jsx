@@ -3,7 +3,8 @@ import React, { useMemo, useState, useRef } from 'react'
 import { useLoader, Canvas, useThree, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { useGLTF, OrbitControls } from '@react-three/drei'
-import { Html, useProgress, Detailed, Environment } from '@react-three/drei'
+import { Html, useProgress, Detailed, Environment, PerspectiveCamera, Loader } from '@react-three/drei'
+import PropTypes from 'prop-types';
 
 function Bird () {
     const ref = useRef()
@@ -37,10 +38,6 @@ function Nest () {
     )
 }
 
-function Loader() {
-    const { active, progress, errors, item, loaded, total } = useProgress()
-    return <Html center>{progress} % loaded</Html>
-}
 
 function Ground () {
     const material = new THREE.MeshPhongMaterial( {
@@ -85,7 +82,6 @@ function Drone({position}) {
                 <mesh geometry={testmesh} material={material}/>
             </Detailed>
         )
-    
 }
 
 export default function Drones({ currentlyInRadar }) {
@@ -93,15 +89,24 @@ export default function Drones({ currentlyInRadar }) {
         return null
     } else {
         return (
-        <Canvas gl={{ antialias: true }} dpr={[1, 1.5]} camera={{ position: [0, 450, 150], fov: 20, near: 20, far: 600 }}>
-            <OrbitControls />
-            {Array.from(currentlyInRadar, (drone) => <Drone key={drone.serialNumber[0]} position={{x: (drone.positionX[0]/3500-80), y:(drone.altitude[0]/50-40), z: (drone.positionY[0]/3500-80)}} /> /* prettier-ignore */)}
-            <ambientLight intensity={0.5} />
-            <directionalLight intensity={0.6} />
-            <Ground />
-            <Bird />
-            <Nest />
-        </Canvas>
+            <Canvas gl={{ antialias: true }} dpr={[1, 1.5]} camera={{ position: [0, 450, 150], fov: 20, near: 20, far: 3000 }} callback={<Loader/>}>
+                <PerspectiveCamera makeDefault fov={20} position={[-200, 300, 300]} resolution={1024} far={3000}></PerspectiveCamera>
+                <OrbitControls />
+                {Array.from(currentlyInRadar, (drone) => <Drone key={drone.serialNumber[0]} position={{x: (drone.positionX[0]/3500-80), y:(drone.altitude[0]/50-40), z: (drone.positionY[0]/3500-80)}} /> /* prettier-ignore */)}
+                <ambientLight intensity={0.5} />
+                <directionalLight intensity={0.6} />
+                <Ground />
+                <Bird />
+                <Nest />
+            </Canvas>
         )
     }
-  }
+}
+
+Drones.propTypes = {
+    currentlyInRadar: PropTypes.arrayOf(PropTypes.object).isRequired,
+}
+
+Drone.propTypes = {
+    position: PropTypes.object.isRequired,
+}

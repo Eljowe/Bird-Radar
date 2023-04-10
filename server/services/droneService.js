@@ -27,12 +27,15 @@ const getPilotInfo = (drone) => {
 
     request.on('timeout', () => {
       request.destroy();
-      reject(new Error('Request timed out'));
-      return [];
+      resolve(null);
+      console.log('timeout, continuing')
+      return null;
     });
 
     request.on('error', (error) => {
-      reject(error);
+      resolve(null);
+      console.log('error, continuing')
+      return null;
     });
   });
 };

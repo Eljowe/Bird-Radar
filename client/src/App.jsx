@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, useMemo, Suspense } from 'react'
 import {getDrones, getCurrent} from './services/droneService'
-import { Canvas } from '@react-three/fiber'
-import { OrbitControls } from "@react-three/drei";
+import { Loader } from '@react-three/drei'
 import React from 'react';
 import Drones from './components/gltfLoader';
 //const Drones = React.lazy(() => import('./components/gltfLoader'));
@@ -27,25 +26,25 @@ function App() {
   };
 
   const createDroneTable = drones.filter(drone => drone.closestToNest < 100000).map(drone => (
-    <tbody key='table'>
-      <tr key={drone.serialNumber}>
-        <td key={drone.serialNumber} className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.serialNumber}</td>
-        <td key={drone.lastSeen} className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{calculateTimeOnList(drone.lastSeen)} minutes</td>
-        <td key={drone.closestToNest} className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{(drone.closestToNest/1000).toFixed(1)} meters</td>
+    <tbody key={`${drone.serialNumber} table`}>
+      <tr key={`${drone.serialNumber} table tr`}>
+        <td key={`${drone.serialNumber}`} className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.serialNumber}</td>
+        <td key={`${drone.serialNumber} lastSeen`} className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{calculateTimeOnList(drone.lastSeen)} minutes</td>
+        <td key={`${drone.serialNumber} closestToNest`} className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{(drone.closestToNest/1000).toFixed(1)} meters</td>
         {drone.pilotInformation ? 
-          <td key={drone.pilotInformation[0].pilotId} className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].pilotId}</td>: <td key="no ID">none</td>
+          <td key={`${drone.serialNumber} pilotId`} className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].pilotId}</td>: <td key="no ID">none</td>
         }
         {drone.pilotInformation ? 
-          <td key={drone.pilotInformation[0].firstName} className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].firstName}</td>: <td key='no firstName'>none</td>
+          <td key={`${drone.serialNumber} firstName`} className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].firstName}</td>: <td key='no firstName'>none</td>
         }
         {drone.pilotInformation ? 
-          <td key={drone.pilotInformation[0].lastName} className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].lastName}</td>: <td key='no lastName'>none</td>
+          <td key={`${drone.serialNumber} lastName`} className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].lastName}</td>: <td key='no lastName'>none</td>
         }
         {drone.pilotInformation ? 
-          <td key={drone.pilotInformation[0].phoneNumber} className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].phoneNumber}</td>: <td key='no phoneNumber'>none</td>
+          <td key={`${drone.serialNumber} phoneNumber`} className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].phoneNumber}</td>: <td key='no phoneNumber'>none</td>
         }
         {drone.pilotInformation ? 
-          <td key={drone.pilotInformation[0].email} className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].email}</td>: <td key='no email'>none</td>
+          <td key={`${drone.serialNumber} email`} className="px-3 py-3 text-left text-white-600 border-b-2 border-white">{drone.pilotInformation[0].email}</td>: <td key='no email'>none</td>
         }
       </tr>
     </tbody>
@@ -67,6 +66,7 @@ function App() {
         <h1>Drone radar app</h1>
       </div>
       <div className='h-[600px] border-2 border-white w-[1000px] m-auto mb-20 mt-10 rounded-xl'>
+        <Loader />
         <Suspense fallback={null}>
           <Drones currentlyInRadar={currentlyInRadar} />
         </Suspense>
