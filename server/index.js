@@ -19,25 +19,13 @@ app.get('/', (req, res) => {
 })
 
 app.get('/api/drones', (req, response) => {
-  try {
     Drone.find({}).then(drones => {
         response.json(drones)
     })
-  } catch (error) {
-    response.status(500).send({ error: '/api/drones error' })
-    console.error(error);
-    console.log('Error in /api/drones')
-  }
 })
 
 app.get('/api/currentdrones', (req, response) => {
-  try {
     getCurrentRadar().then(drones=> {response.json(drones)})
-  } catch (error) {
-    response.status(500).send({ error: '/api/currentdrones error' })
-    console.error(error);
-    console.log('Error in /api/currentdrones')
-  }
 })
 
 const unknownEndpoint = (request, response) => {

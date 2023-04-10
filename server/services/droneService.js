@@ -12,31 +12,32 @@ const distanceToNest = (x, y) => {
 };
 
 const getPilotInfo = (drone) => {
-  try {
-    return new Promise((resolve, reject) => {
-      https.get(`https://assignments.reaktor.com/birdnest/pilots/${drone.serialNumber[0]}`, (response) => {
-        let data2 = '';
-        response.on('data', (chunk) => {
-          data2 += chunk;
-        });
-        
-        response.on('end', () => {
-          const pilotInfo = JSON.parse(data2);
-          resolve(pilotInfo);
-        });
-      }).on('error', (error) => {
-        reject(error);
+  return new Promise((resolve, reject) => {
+    const request = https.get(`https://assignments.reaktor.com/birdnest/pilots/${drone.serialNumber[0]}`, { timeout: 5000 }, (response) => {
+      let data = '';
+      response.on('data', (chunk) => {
+        data += chunk;
+      });
+      
+      response.on('end', () => {
+        const pilotInfo = JSON.parse(data);
+        resolve(pilotInfo);
       });
     });
-  } catch (error) {
-    console.error(error);
-    console.log('Error in getPilotInfo 2')
-    return null;
-  }
+
+    request.on('timeout', () => {
+      request.destroy();
+      reject(new Error('Request timed out'));
+      return [];
+    });
+
+    request.on('error', (error) => {
+      reject(error);
+    });
+  });
 };
 
 export default async function fetchDataAndParseToSchema() {
-    try {
       let arr = [];
         https.get("https://assignments.reaktor.com/birdnest/drones", (res) => {
           let data = '';
@@ -92,12 +93,9 @@ export default async function fetchDataAndParseToSchema() {
           const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
           await droneSchema.deleteMany({ lastSeen: { $lt: tenMinutesAgo } });
         });
-      })
-    } catch (error) {
-      console.error(error);
-      console.log('Error fetching data 1');
-      return null;
-    }
+      }).on('error', (err) => {
+        console.error(err);
+      });
 };
   
   

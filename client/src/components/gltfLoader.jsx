@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import React, { useMemo, useState, useRef } from 'react'
 import { useLoader, Canvas, useThree, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
@@ -35,10 +36,6 @@ function Nest () {
         </Detailed>
     )
 }
-
-const distanceToNest = (x, y) => { 
-    return Math.sqrt(Math.pow(250000-x, 2)+Math.pow(250000-y, 2))
-};
 
 function Loader() {
     const { active, progress, errors, item, loaded, total } = useProgress()
@@ -91,7 +88,6 @@ function Drone({position}) {
     
 }
 
-
 export default function Drones({ currentlyInRadar }) {
     if (currentlyInRadar.length == 0) {
         return null
@@ -99,11 +95,9 @@ export default function Drones({ currentlyInRadar }) {
         return (
         <Canvas gl={{ antialias: true }} dpr={[1, 1.5]} camera={{ position: [0, 450, 150], fov: 20, near: 20, far: 600 }}>
             <OrbitControls />
-            {/* Using cubic easing here to spread out objects a little more interestingly, i wanted a sole big object up front ... */}
             {Array.from(currentlyInRadar, (drone) => <Drone key={drone.serialNumber[0]} position={{x: (drone.positionX[0]/3500-80), y:(drone.altitude[0]/50-40), z: (drone.positionY[0]/3500-80)}} /> /* prettier-ignore */)}
             <ambientLight intensity={0.5} />
             <directionalLight intensity={0.6} />
-            {/* Multisampling (MSAA) is WebGL2 antialeasing, we don't need it (faster) */}
             <Ground />
             <Bird />
             <Nest />
@@ -111,5 +105,3 @@ export default function Drones({ currentlyInRadar }) {
         )
     }
   }
-  // {currentlyInRadar.map(drone => (<Drone key={drone.serialNumber[0]} position={{x: (drone.positionX[0]/1300-200), y:(drone.altitude[0]/15-200), z: (drone.positionY[0]/1500-150)}} />))}
-  //{Array.from({ length: currentlyInRadar.length }, (drone, i) => <Drone key={drone.serialNumber[0]} position={{x: (drone.positionX[0]/1300-200), y:(drone.altitude[0]/15-200), z: (drone.positionY[0]/1500-150)}} /> /* prettier-ignore */)}
