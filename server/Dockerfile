@@ -33,4 +33,6 @@ WORKDIR /app
 ENV NODE_ENV production
 ENV PATH /root/.volta/bin:$PATH
 
+#CMD [ "pm2-runtime", "start", "index.js" ]
+
 CMD [ "npm", "run", "start" ]

@@ -1,10 +1,5 @@
-import response, { json } from 'express';
 import https from 'https';
 import xml2json from 'xml2js';
-import droneSchema from '../models/drone.js';
-import http from 'http';
-import mongoose from 'mongoose';
-import drone from '../models/drone.js';
 
 export default function getCurrentRadar() {
   return new Promise((resolve, reject) => {
@@ -21,6 +16,7 @@ export default function getCurrentRadar() {
         resolve(arr);
       });
     }).on('error', (err) => {
+      console.log('xmlproxy error, continuing')
       resolve(null);
       return null
       reject(err);
