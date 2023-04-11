@@ -21,6 +21,8 @@ export default function getCurrentRadar() {
         resolve(arr);
       });
     }).on('error', (err) => {
+      resolve(null);
+      return null
       reject(err);
     });
   });

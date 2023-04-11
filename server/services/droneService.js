@@ -16,7 +16,13 @@ const getPilotInfo = (drone) => {
     const request = https.get(`https://assignments.reaktor.com/birdnest/pilots/${drone.serialNumber[0]}`, { timeout: 5000 }, (response) => {
       let data = '';
       response.on('data', (chunk) => {
-        data += chunk;
+        try{
+          data += chunk;
+        } catch (error) {
+          console.log('error with data, continuing')
+          resolve(null);
+          return null;
+        }
       });
       
       response.on('end', () => {
@@ -24,6 +30,7 @@ const getPilotInfo = (drone) => {
           const pilotInfo = JSON.parse(data);
           resolve(pilotInfo);
         } catch (error) {
+          console.log('error with end, continuing')
           resolve(null);
           return null;
         }
@@ -103,6 +110,7 @@ export default async function fetchDataAndParseToSchema() {
         });
       }).on('error', (err) => {
         console.error(err);
+        console.log('fetch error, continuing')
       });
 };
   
